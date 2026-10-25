@@ -98,7 +98,7 @@ export default function FocusTimer({ subjects, settings, initialSubjectId, onCom
   };
 
   // Start and Resume open the full-screen, time-only view.
-  const begin = () => {
+    const prepare = () => {
     if (!audio.current) {
       try {
         audio.current = new (window.AudioContext || window.webkitAudioContext)();
@@ -108,15 +108,26 @@ export default function FocusTimer({ subjects, settings, initialSubjectId, onCom
     }
     audio.current?.resume?.();
     if (mode === 'focus') setAward(null);
-    Promise.resolve(document.documentElement.requestFullscreen?.()).catch(() => {});
+  };
+
+  // Start or resume on the normal screen
+  const startNormal = () => {
+    prepare();
     startClock();
+  };
+
+  // Open the full-screen, time-only view (keeps the clock running if it already is)
+  const begin = () => {
+    prepare();
+    Promise.resolve(document.documentElement.requestFullscreen?.()).catch(() => {});
+    if (!running) startClock();
     setView('run');
   };
 
   // Esc: pause and go back to the setup screen.
+    // Esc: go back to the setup screen. The timer keeps running.
   const leaveRun = () => {
     if (view !== 'run') return;
-    if (running) pauseClock();
     setView('setup');
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   };
@@ -238,14 +249,15 @@ export default function FocusTimer({ subjects, settings, initialSubjectId, onCom
             <i key={i} className={i < filled ? 'on' : ''} />
           ))}
         </div>
-        <button className="go" onClick={begin} autoFocus>
-          {left < dur(mode) ? 'Resume' : 'Start'}
+                <button className="go" onClick={running ? pauseClock : startNormal} autoFocus>
+          {running ? 'Pause' : left < dur(mode) ? 'Resume' : 'Start'}
         </button>
         <div className="setup-row">
+          <button onClick={begin}>Full screen</button>
           <button onClick={reset}>Reset</button>
           <button onClick={skip}>Skip</button>
         </div>
-        <p className="timer-hint">In full screen you only see the time. Press space to pause and Esc to exit.</p>
+        <p className="timer-hint">Full screen shows only the time. Press space to pause and Esc to exit.</p>
       </div>
     </div>
   );
