@@ -1,0 +1,96 @@
+/* Cozy forest theme. Loaded after styles.css, so it only overrides: remove the
+   import in main.jsx to go back to the plain black look. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;800&display=swap');
+
+:root {
+  --bg: #0d1f17;
+  --ink: #eef3e3;
+  --muted: #a3b8a0;
+  --line: rgba(238, 243, 227, 0.16);
+  --field: rgba(255, 255, 255, 0.07);
+  --accent: #f4c95d; /* lantern gold */
+  --accent-ink: #2b2208;
+  --moss: #9bd47a;
+  --teal: #6fd1b4;
+  --panel: rgba(10, 28, 19, 0.68);
+  --l0: rgba(255, 255, 255, 0.08);
+  --l1: #2e6a45;
+  --l2: #4b9a5f;
+  --l3: #7bc47a;
+  --l4: #b8e68c;
+  font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+body { background: #0d1f17; }
+
+h1, h2, .stat .num, .balance b, .heat-sum strong {
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+}
+.top h1 { font-weight: 800; letter-spacing: -0.01em; }
+.top h1::before { content: '🌿 '; font-size: 0.7em; }
+h2 { font-weight: 800; }
+
+/* Scenery */
+.scenery { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: linear-gradient(180deg, #0c1d15 0%, #12301f 55%, #1b4b2f 100%); }
+.scenery .glow { position: absolute; top: -12vh; right: 6vw; width: 50vmax; height: 50vmax;
+  background: radial-gradient(circle, rgba(244, 201, 93, 0.26), rgba(244, 201, 93, 0) 62%); }
+.scenery .hills { position: absolute; left: 0; bottom: 0; width: 100%; height: 55vh; min-height: 260px; }
+.firefly { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #ffe9a3;
+  box-shadow: 0 0 10px 3px rgba(255, 226, 140, 0.55);
+  animation: drift var(--dur) ease-in-out var(--delay) infinite alternate,
+             blink calc(var(--dur) / 2.5) ease-in-out var(--delay) infinite; }
+@keyframes drift { from { transform: translate(0, 0); } to { transform: translate(var(--dx), var(--dy)); } }
+@keyframes blink { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .firefly { animation: none; opacity: 0.55; } }
+
+/* Soft glass panels */
+.page > section {
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(238, 243, 227, 0.12);
+  border-radius: 24px;
+  padding: 1.5rem 1.6rem;
+  margin-bottom: 1.5rem;
+}
+.page > .data { border: 1px solid rgba(238, 243, 227, 0.12); }
+.subjects ul, .rewards ul { border-top: 1px solid var(--line); }
+.dow { background: rgba(10, 28, 19, 0.92); }
+
+/* Rounder, softer controls */
+.btn { border-radius: 999px; border-color: rgba(238, 243, 227, 0.45); font-weight: 700; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { background: #ffd97d; }
+.btn.ghost { border-color: transparent; }
+.btn.ghost:hover { border-color: var(--line); }
+select, input { border-radius: 14px; border-color: rgba(238, 243, 227, 0.2); color: var(--ink); }
+.cell { border-radius: 4px; }
+.meter, .share { border-radius: 999px; }
+.meter b { background: var(--moss); border-radius: 999px; }
+.share b { background: var(--teal); border-radius: 999px; }
+.treat.ready .share b { background: var(--accent); }
+.treat.ready .figures span:last-child { color: var(--accent); }
+.balance b, .award { color: var(--accent); }
+.claims ul { border-top: 1px solid var(--line); }
+
+/* Timer setup screen (the full-screen view stays pure black) */
+.timer.setup { background: linear-gradient(180deg, #0c1d15 0%, #143823 100%); }
+.timer.setup button, .timer.setup select { border-radius: 999px; }
+.timer.setup .go { font-weight: 800; }
+
+/* Small icons (decorative) */
+.stat .num::before { font-family: 'Nunito', system-ui, sans-serif; font-size: 0.55em; margin-right: 0.35em; vertical-align: 0.15em; }
+.stat:nth-child(1) .num::before { content: '🌱'; }
+.stat:nth-child(2) .num::before { content: '🔥'; }
+.stat:nth-child(3) .num::before { content: '🏆'; }
+.stat:nth-child(4) .num::before { content: '📚'; }
+.stat:nth-child(5) .num::before { content: '✨'; }
+.subjects h2::before { content: '📚 '; }
+.rewards h2::before { content: '🎁 '; }
+.data > div:first-child h2::before { content: '⏳ '; }
+.data > div:last-child h2::before { content: '🍃 '; }
+
+@media (max-width: 760px) {
+  .page > section { padding: 1.2rem 1.1rem; border-radius: 20px; }
+}
