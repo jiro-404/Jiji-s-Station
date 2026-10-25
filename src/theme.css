@@ -18,11 +18,10 @@
      For the green heatmap again, use:
      --l1: #2e6a45; --l2: #4b9a5f; --l3: #7bc47a; --l4: #b8e68c; */
   --l0: rgba(255, 255, 255, 0.08);
-  --l1: #39408f;
-  --l2: #6b52b5;
-  --l3: #d4739a;
-  --l4: #ffb35a;
-
+  --l1: #2e6a45;
+--l2: #4b9a5f;
+--l3: #7bc47a;
+--l4: #b8e68c;
   font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
