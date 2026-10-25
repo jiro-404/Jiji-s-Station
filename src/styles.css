@@ -137,7 +137,9 @@ html:has(.timer) { overflow: hidden; }
 
 /* Timer: full screen, time only */
 .timer.run { background: #000; color: #fff; align-items: center; justify-content: center; cursor: none; overflow: hidden; }
-.timer.run .clock { font-size: min(26vw, 70vh); }
+.timer.run .clock { font-size: min(26vw, 70vh); font-weight: 700; }
+.timer.run .clock .digit { width: 0.64em; }
+.timer.run .clock .colon { width: 0.32em; }
 .timer.run .clock { transition: opacity 0.2s; }
 .timer.run.paused .clock { opacity: 0.4; }
 .timer.run[data-mode='short'] .clock, .timer.run[data-mode='long'] .clock { color: #b7c4bc; }
