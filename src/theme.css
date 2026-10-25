@@ -109,3 +109,10 @@ select, input { border-radius: 14px; border-color: rgba(236, 234, 255, 0.2); col
 @media (max-width: 760px) {
   .page > section { padding: 1.2rem 1.1rem; border-radius: 20px; }
 }
+/* Show the room: put it above the page background, content above the room */
+body { background: transparent; }
+.scenery { z-index: 0; }
+.page { position: relative; z-index: 1; }
+
+/* Heatmap: remove the stray vertical scrollbar */
+.heat-scroll { overflow-y: hidden; padding-top: 4px; }
