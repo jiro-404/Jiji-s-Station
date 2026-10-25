@@ -63,15 +63,21 @@ export default function FocusTimer({ subjects, settings, initialSubjectId, onCom
     [settings]
   );
 
-  const finish = useCallback(() => {
-    setRunning(false);
+    const finish = useCallback(() => {
     beep(audio.current);
     if (mode === 'focus') {
       setAward(onComplete(subjectId, settings.focus));
       const n = cycles + 1;
       setCycles(n);
-      switchMode(n % settings.longEvery === 0 ? 'long' : 'short');
+      // The break starts by itself.
+      const next = n % settings.longEvery === 0 ? 'long' : 'short';
+      const ms = settings[next] * 60000;
+      setMode(next);
+      setLeft(ms);
+      setEndAt(Date.now() + ms);
+      setRunning(true);
     } else {
+      // After a break, wait for you to start the next focus session.
       switchMode('focus');
     }
   }, [mode, subjectId, settings, cycles, onComplete, switchMode]);
